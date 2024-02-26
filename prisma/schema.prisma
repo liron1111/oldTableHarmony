@@ -1,0 +1,209 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+//* Main models 
+
+model User {
+  id                  String          @id @default(auto()) @map("_id") @db.ObjectId
+  name                String?
+  email               String          @unique
+  password            String?
+  emailVerified       DateTime?
+  image               String          @default("https://cdn-icons-png.flaticon.com/512/1531/1531344.png")
+  accessKey           Int             @default(1)
+  isTwoFactorEnabled  Boolean         @default(false)
+
+  //? Relations
+  repositories    Repository[] 
+  servers         UserServer[]
+  chats           UserChat[]      
+  accounts        Account[]
+  messages        Message[]
+  friendsA        Friend[]        @relation("userAfriendships")
+  friendsB        Friend[]        @relation("userBfriendships")
+  twoFactorConfirmation TwoFactorConfirmation?
+}
+
+model Repository {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String  
+  git      String  
+
+  //! Foreign key
+  ownerId  String  @db.ObjectId
+  
+  //? Relation
+  owner    User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model Server {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  image   String   @default("https://cdn-icons-png.flaticon.com/512/1531/1531344.png")
+
+  //? Relations
+  users   UserServer[] 
+  chats   ServerChat[]
+}
+
+model Chat {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  image      String   @default("https://cdn-icons-png.flaticon.com/512/1531/1531344.png")
+
+  //? Relations
+  messages  Message[]
+  users     UserChat[]
+  server    ServerChat?
+}
+
+model Message {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  content    String
+  createdAt  DateTime   @default(now())
+
+  //! Foreign keys
+  userId     String     @db.ObjectId
+  chatId     String     @db.ObjectId
+
+  //? Relations
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat       Chat       @relation(fields: [chatId], references: [id], onDelete: Cascade)
+}
+
+
+
+//* junction models, M:N relations connecting models:
+
+
+//? User && User
+model Friend {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  //! Foreign keys
+  userAId  String   @db.ObjectId
+  userBId  String   @db.ObjectId
+
+  //? Relations
+  userA    User     @relation("userAfriendships", fields: [userAId], references: [id], onDelete: Cascade)
+  userB    User     @relation("userBfriendships", fields: [userBId], references: [id], onDelete: Cascade)
+
+  @@unique([userBId, userAId])
+  @@unique([userAId, userBId])
+}
+
+//? User && Server
+model UserServer {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+
+  //! Foreign keys 
+  userId     String  @db.ObjectId
+  serverId   String  @db.ObjectId
+
+  //? Relations
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)    
+  server     Server  @relation(fields: [serverId], references: [id], onDelete: Cascade)  
+
+  @@unique([userId, serverId])
+}
+
+//? User && Chat
+model UserChat {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+
+  //! Foreign keys 
+  userId     String  @db.ObjectId
+  chatId     String  @db.ObjectId
+
+  //? Relations
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat       Chat    @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, chatId])
+}
+
+//? Server && Chat
+model ServerChat {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  //! Foreign keys
+  chatId     String   @db.ObjectId
+  serverId   String   @db.ObjectId
+  
+  //? Relations
+  server     Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  chat       Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@unique([chatId])
+}
+
+
+//* next-auth models: 
+
+
+//? user's accounts
+model Account {
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  type                String
+  provider            String
+  providerAccountId   String   @map("provider_account_id")
+  refresh_token       String?
+  access_token        String?
+  expires_at          Int?
+  token_type          String?
+  scope               String?
+  id_token            String?
+  session_state       String?
+
+  userId              String   @map("user_id") @db.ObjectId  //! Foreign key
+  user                User    @relation(fields: [userId], references: [id], onDelete: Cascade)  //? Relation
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String
+  token       String   @unique
+  expires     DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String
+  token       String   @unique
+  expires     DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String
+  token       String   @unique
+  expires     DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  //! Foreign keys
+  userId     String   @db.ObjectId
+  //? Relations
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade) 
+
+  @@unique([userId])
+}
