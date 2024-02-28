@@ -10,7 +10,7 @@ import {
   generateVerificationToken,
   generateTwoFactorToken,
 } from "@/lib/tokens";
-import { getUserByEmail } from "@/model/user";
+import { getUserByCredentials } from "@/model/user";
 import { 
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
@@ -31,10 +31,10 @@ export const login = async (
 
   const { email, password, code } = validatedFields.data;
 
-  const existingUser = await getUserByEmail(email);
-
+  const existingUser = await getUserByCredentials(email, password);
+  
   if (!existingUser || !existingUser.email || !existingUser.password) {
-    return { error: "Email does not exist!" }
+    return { error: "Invalid credentials!" }
   }
 
   if (!existingUser.emailVerified) {
@@ -48,6 +48,7 @@ export const login = async (
   if (existingUser.isTwoFactorEnabled) {
     if (code) {
       const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
+      
       if (!twoFactorToken) {
         return { error: "Invalid code!"};
       }
@@ -81,9 +82,8 @@ export const login = async (
       }); 
 
     } else {
-
       const twoFactorToken = await generateTwoFactorToken(existingUser.email);
-      
+
       await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
       
       return { twoFactor: true };

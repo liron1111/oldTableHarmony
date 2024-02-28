@@ -1,5 +1,4 @@
 import { auth } from "./auth"
-
 import {
   apiAuthPrefix,
   publicRoutes,

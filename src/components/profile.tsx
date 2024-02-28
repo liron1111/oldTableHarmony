@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { signOut, useSession } from "next-auth/react"
+import { useCurrentUser } from "@/hooks/use-current-user"
 import {
   Avatar,
   AvatarFallback,
@@ -15,33 +15,39 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
+import { signOut } from "next-auth/react"
+import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu"
+import Link from "next/link"
 
 export const Profile = () => {
-  const session = useSession();
-
+  const user = useCurrentUser();
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-9 w-9">
-            <AvatarImage src={session.data?.user?.image as string} alt="profile" />
+            <AvatarImage src={user?.image || '/'} alt="profile" />
             <AvatarFallback>SC</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{session.data?.user?.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {session.data?.user?.email}
-            </p>
-          </div>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel className="flex flex-col font-medium leading-none">
+          <p className="text-sm capitalize">{user?.name}</p>
+          <p className="text-xs text-muted-foreground">{user?.email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
-          Logout
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          {!user?.isOAuth && (
+            <DropdownMenuItem asChild>
+              <Link href='/auth/update'>Update</Link>
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuItem onClick={() => signOut()}>
+            Sign out
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -10,6 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
 
 //* Main models 
 
@@ -20,7 +24,7 @@ model User {
   password            String?
   emailVerified       DateTime?
   image               String          @default("https://cdn-icons-png.flaticon.com/512/1531/1531344.png")
-  accessKey           Int             @default(1)
+  role                UserRole        @default(USER)
   isTwoFactorEnabled  Boolean         @default(false)
 
   //? Relations

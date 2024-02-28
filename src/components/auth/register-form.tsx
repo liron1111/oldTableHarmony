@@ -44,8 +44,8 @@ export const RegisterForm = () => {
         .then((data) => {
           setError(data.error);
           setSuccess(data.success);
-        });
-    });
+        }).catch(() => setError("Something went wrong!"));
+      });
   };
 
   return (

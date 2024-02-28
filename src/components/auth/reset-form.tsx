@@ -48,7 +48,7 @@ export const ResetForm = () => {
           form.reset();
           setSuccess(data.success);
         }   
-      });
+      }).catch(() => setError("Something went wrong!"));
     });
   };
 
