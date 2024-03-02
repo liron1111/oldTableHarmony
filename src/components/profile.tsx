@@ -14,14 +14,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuGroup,
 } from "./ui/dropdown-menu"
-import { signOut } from "next-auth/react"
-import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
+import { ExitIcon } from "@radix-ui/react-icons";
+import { LogoutButton } from "./auth/logout-button";
 
 export const Profile = () => {
   const user = useCurrentUser();
-  
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -44,9 +45,12 @@ export const Profile = () => {
               <Link href='/auth/update'>Update</Link>
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem onClick={() => signOut()}>
-            Sign out
-          </DropdownMenuItem>
+          <LogoutButton>
+            <DropdownMenuItem>
+              <ExitIcon className="h-4 w-4 mr-2" />
+              Logout
+            </DropdownMenuItem>
+          </LogoutButton>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { UpdateSchema } from "@/schemas";
 import { prisma } from "@/lib/prisma";
 import { currentUser } from "@/lib/auth";
-import { getUserByEmail, getUserById } from "@/model/user";
+import { getUserByEmail, getUserById } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 

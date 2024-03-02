@@ -27,7 +27,7 @@ export const user: ColumnDef<User>[] = [
   checkboxColumn(),
   {
     accessorKey: 'image',
-    header: 'avatar',
+    header: 'image',
     cell: ({ row }) => {
       return (
         <Avatar>
@@ -58,10 +58,19 @@ export const user: ColumnDef<User>[] = [
     }
   },
   {
+    accessorKey: 'emailVerified',
+    header: 'email verified',
+    cell: ({ row }) => {
+      return (new Date(row.getValue('emailVerified'))).toLocaleDateString('en-GB');
+    }
+  },
+  {
+    accessorKey: 'isTwoFactorEnabled',
+    header: 'two factor',
+  },
+  {
     accessorKey: 'role',
-    header: ({ column }) => {
-      return sortableColumn({ column });
-    },
+    header: 'role',
   },
   {
     accessorKey: 'actions',
@@ -105,7 +114,7 @@ export const account: ColumnDef<Account>[] = [
       return sortableColumn({ column });
     },
     cell: ({ row }) => {
-      return (new Date(row.getValue('expires_at'))).toLocaleDateString('en-GB');
+      return (new Date(row.getValue('expires_at'))).toLocaleDateString('en-GB');    
     }
   },
   {

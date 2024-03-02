@@ -3,9 +3,9 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { prisma } from "@/lib/prisma";
 import authConfig from "@/auth.config";
-import { getUserById } from "./model/user";
-import { getTwoFactorConfirmationByUserId } from "./model/two-factor-confirmation";
-import { getAccountByUserId } from "./model/account";
+import { getUserById } from "./data/user";
+import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+import { getAccountByUserId } from "./data/account";
 import { UserRole } from "@prisma/client";
 
 export const {

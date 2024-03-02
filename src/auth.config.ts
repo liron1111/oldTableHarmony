@@ -2,10 +2,9 @@ import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import Discord from "next-auth/providers/discord";
 
 import { LoginSchema } from "@/schemas";
-import { getUserByCredentials } from "@/model/user";
+import { getUserByCredentials } from "@/data/user";
 
 export default {
   providers: [
@@ -16,10 +15,6 @@ export default {
     Github({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-    }),
-    Discord({
-      clientId: process.env.DISCORD_ID,
-      clientSecret: process.env.DISCORD_SECRET,
     }),
     Credentials({
       async authorize(credentials) {

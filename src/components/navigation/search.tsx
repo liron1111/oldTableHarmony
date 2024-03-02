@@ -8,8 +8,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "./ui/command";
-import { Button } from "./ui/button";
+} from "../ui/command";
+import { Button } from "../ui/button";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useCurrentRole } from "@/hooks/use-current-role";
 import Link from "next/link";
@@ -32,7 +32,7 @@ export const Search = () => {
 
   return (
     <>
-      <Button variant="secondary" className="w-[400px]" onClick={() => setOpen(true)}>
+      <Button variant="outline" className="w-[400px]" onClick={() => setOpen(true)}>
         <MagnifyingGlassIcon className="mr-2 w-4 h-4" />
         Search
       </Button>
@@ -44,6 +44,11 @@ export const Search = () => {
             <Item title='home' to='/' />
             <Item title='information' to='/information' />
           </CommandGroup>
+          {role && (
+            <CommandGroup heading="Social pages">
+              <Item title='servers' to='/servers' />
+            </CommandGroup>
+          )}
           {role === UserRole.ADMIN && (
             <CommandGroup heading="Admin">
               {models.map(model => (

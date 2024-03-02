@@ -35,9 +35,9 @@ import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { 
   MixerVerticalIcon, 
-  MixerHorizontalIcon, 
   ChevronLeftIcon,
-  ChevronRightIcon, 
+  ChevronRightIcon,
+  LayoutIcon, 
 } from "@radix-ui/react-icons";
 import {
   Select,
@@ -93,13 +93,10 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='outline'>
-                <MixerVerticalIcon className="mr-2 h-4 w-4" />
-                Filter
+                <MixerVerticalIcon className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-              <DropdownMenuSeparator />
               <DropdownMenuRadioGroup value={filterColumn} onValueChange={setFilterColumn}>
                 {table
                   .getAllColumns()
@@ -123,13 +120,10 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='outline'>
-              <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-              View
+              <LayoutIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-            <DropdownMenuSeparator />
             {table
               .getAllColumns()
               .filter(column => column.getCanHide())
@@ -177,7 +171,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map(cell => (
-                    <TableCell className="max-w-xs overflow-hidden truncate" key={cell.id}>
+                    <TableCell className="overflow-hidden truncate max-w-48" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

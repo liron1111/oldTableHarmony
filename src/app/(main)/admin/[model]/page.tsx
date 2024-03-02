@@ -5,22 +5,32 @@ import { RoleGate } from "@/components/auth/role-gate";
 import { UserRole } from "@prisma/client";
 import { models } from "@/lib/admin";
 
+interface AdminPageProps {
+  params: {
+    model: "user",
+  }
+}
+
 export async function generateStaticParams() {
   return models.map((model) => {
     return { model: model }
   });
 }
 
-export default async function AdminPage({ params } : { params: { model: "user" } }) {
+export default async function AdminPage({ 
+  params
+} : AdminPageProps) {
   const { model } = params;
   const rows = await prisma[model].findMany();
 
   return (
-    <RoleGate allowedRole={UserRole.ADMIN}>
-      <DataTable 
-        data={rows}
-        columns={columns[model]}
-        />
-    </RoleGate>
+    <div>
+      <RoleGate allowedRole={UserRole.ADMIN}>
+        <DataTable 
+          data={rows}
+          columns={columns[model]}
+          />
+      </RoleGate>
+    </div>
   )
 }

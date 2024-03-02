@@ -2,9 +2,9 @@ import crypto from "crypto"
 import { v4 as uuidv4 } from "uuid";
 
 import { prisma } from "@/lib/prisma";
-import { getVerificationTokenByEmail } from "@/model/verification-token";
-import { getPasswordResetTokenByEmail } from "@/model/password-reset-token";
-import { getTwoFactorTokenByEmail } from "@/model/two-factor-token";
+import { getVerificationTokenByEmail } from "@/data/verification-token";
+import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
+import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 
 export const generateTwoFactorToken = async (email: string) => {
   const token = crypto.randomInt(100_000, 1_000_000).toString();

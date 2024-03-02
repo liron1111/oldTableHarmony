@@ -10,14 +10,14 @@ import {
   generateVerificationToken,
   generateTwoFactorToken,
 } from "@/lib/tokens";
-import { getUserByCredentials } from "@/model/user";
+import { getUserByCredentials } from "@/data/user";
 import { 
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
 } from "@/lib/mail";
-import { getTwoFactorTokenByEmail } from "@/model/two-factor-token";
+import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { prisma } from "@/lib/prisma";
-import { getTwoFactorConfirmationByUserId } from "@/model/two-factor-confirmation";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,

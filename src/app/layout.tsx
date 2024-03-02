@@ -1,9 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Fredoka } from 'next/font/google';
-import { ThemeProvider } from "@/components/theme/provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
 const fredoka = Fredoka({ subsets: ['latin'], });
 
@@ -20,9 +21,10 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`m-2 ${fredoka.className}`}>
+      <body className={`${fredoka.className}`}>
         <SessionProvider session={session}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <ModalProvider />
             {children}
           </ThemeProvider>
         </SessionProvider>

@@ -1,13 +1,13 @@
 import { SunIcon, MoonIcon } from "@radix-ui/react-icons";
-import { Button } from "../ui/button";
-import { Theme } from "../../lib/utils";
+import { Button } from "./ui/button";
+import { Theme } from "../lib/utils";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "./ui/dropdown-menu";
 import { useTheme } from "next-themes";
 
 export function ThemeToggle() {
