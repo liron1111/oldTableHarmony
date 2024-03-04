@@ -1,7 +1,8 @@
 import { Navbar } from "@/components/navbar";
+import { ModalProvider } from "@/components/providers/modal-provider";
 import { Separator } from "@/components/ui/separator";
 
-export default function MainLayout({
+export default function SocialLayout({
   children,
 }: {
   children: React.ReactNode
@@ -12,6 +13,7 @@ export default function MainLayout({
         <Navbar />
         <Separator />
       </div>
+      <ModalProvider />
       {children}
     </div>
   );

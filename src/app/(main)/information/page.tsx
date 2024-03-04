@@ -8,7 +8,7 @@ import {
 export default function InformationPage() {
 
   return (
-    <Accordion type="multiple">
+    <Accordion className="p-2" type="multiple">
       <AccordionItem value="item-1">
         <AccordionTrigger>What does TableHarmony do ?</AccordionTrigger>
         <AccordionContent>

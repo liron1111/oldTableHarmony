@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   });
   
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 px-2 py-10">
       <header className="flex items-center justify-between">
         {/* Filtering */}
         <div className="flex gap-2 w-full">
@@ -94,13 +94,14 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             <DropdownMenuTrigger asChild>
               <Button variant='outline'>
                 <MixerVerticalIcon className="h-4 w-4" />
+                <span className="sr-only">Search</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuRadioGroup value={filterColumn} onValueChange={setFilterColumn}>
                 {table
                   .getAllColumns()
-                  .filter(column => !['select', 'actions', 'image'].includes(column.id))
+                  .filter(column => column.getCanSort())
                   .map(column => {
                     return (
                       <DropdownMenuRadioItem
@@ -121,6 +122,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           <DropdownMenuTrigger asChild>
             <Button variant='outline'>
               <LayoutIcon className="h-4 w-4" />
+              <span className="sr-only">View</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
@@ -150,7 +152,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-secondary-foreground">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -236,7 +238,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
               >
-                <ChevronLeftIcon className="h-4 w-4" />
+              <ChevronLeftIcon className="h-4 w-4" />
+              <span className="sr-only">Prev page</span>
             </Button>
             {/* Next */}
             <Button
@@ -246,6 +249,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               disabled={!table.getCanNextPage()}
             >
               <ChevronRightIcon className="h-4 w-4" />
+              <span className="sr-only">Next page</span>
             </Button>
           </div>
         </div>

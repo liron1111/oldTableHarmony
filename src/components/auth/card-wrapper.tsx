@@ -6,8 +6,8 @@ import {
   CardFooter,
   CardHeader
 } from "@/components/ui/card";
-import { Social } from "./social";
-import { Button } from "../ui/button";
+import { Social } from "@/components/auth/social";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 interface CardWrapperProps {
@@ -26,8 +26,8 @@ export const CardWrapper = ({
   showSocial
 }: CardWrapperProps) => {
   return (
-    <div className="grid h-screen place-items-center">
-      <Card className="min-w-[400px] shadow-md" >
+    <div className="grid h-screen place-items-center py-2">
+      <Card className="min-w-[400px] shadow-md">
         <CardHeader>
           {headerLabel}
         </CardHeader>

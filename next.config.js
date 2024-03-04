@@ -6,11 +6,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'cdn.discordapp',
+        hostname: 'cdn.discordapp.com',
       },
       {
         protocol: 'https',
-        hostname: 'lh3.googleusercontent',
+        hostname: 'lh3.googleusercontent.com',
       },
       {
         protocol: 'https',

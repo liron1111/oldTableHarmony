@@ -4,7 +4,6 @@ import { Fredoka } from 'next/font/google';
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-import { ModalProvider } from "@/components/providers/modal-provider";
 
 const fredoka = Fredoka({ subsets: ['latin'], });
 
@@ -24,7 +23,6 @@ export default async function RootLayout({
       <body className={`${fredoka.className}`}>
         <SessionProvider session={session}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            <ModalProvider />
             {children}
           </ThemeProvider>
         </SessionProvider>

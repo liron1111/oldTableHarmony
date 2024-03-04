@@ -19,24 +19,23 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { createServer } from "@/actions/create-server";
-import { FormError } from "../form-error";
-import { FormSuccess } from "../form-success";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 import { useModal } from "@/hooks/use-modal-store";
 
 export const CreateServerModal = () => {
   const { isOpen, onClose, type } = useModal();
+  const isModalOpen = isOpen && type === "createServer";
+
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
-
-  const isModalOpen = isOpen && type === "createServer";
   
   const form = useForm<z.infer<typeof CreateServerSchema>>({
     resolver: zodResolver(CreateServerSchema),

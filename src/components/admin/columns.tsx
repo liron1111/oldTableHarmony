@@ -1,6 +1,6 @@
 'use client'
 
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
+import { DotsVerticalIcon } from "@radix-ui/react-icons"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +27,7 @@ export const user: ColumnDef<User>[] = [
   checkboxColumn(),
   {
     accessorKey: 'image',
-    header: 'image',
+    header: '',
     cell: ({ row }) => {
       return (
         <Avatar>
@@ -35,38 +35,39 @@ export const user: ColumnDef<User>[] = [
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       )
-    }
+    },
+    enableSorting: false,
   },
   {
     accessorKey: 'id',
     header: 'id',
+    enableHiding: false,
   },
   {
     accessorKey: 'email',
-    header: ({ column }) => {
-      return sortableColumn({ column });
-    }
+    header: sortableColumn,
   },
   {
     accessorKey: 'password',
     header: 'password',
+    enableSorting: false,
   },
   {
     accessorKey: 'name',
-    header: ({ column }) => {
-      return sortableColumn({ column });
-    }
+    header: sortableColumn,
   },
   {
     accessorKey: 'emailVerified',
-    header: 'email verified',
+    header: 'emailVerified',
     cell: ({ row }) => {
       return (new Date(row.getValue('emailVerified'))).toLocaleDateString('en-GB');
-    }
+    },
+    enableSorting: false,
   },
   {
     accessorKey: 'isTwoFactorEnabled',
-    header: 'two factor',
+    header: 'isTwoFactorEnabled',
+    enableSorting: false,
   },
   {
     accessorKey: 'role',
@@ -74,9 +75,12 @@ export const user: ColumnDef<User>[] = [
   },
   {
     accessorKey: 'actions',
+    header: '',
     cell: ({ row }) => {
       return actionsColumn({ row });
-    }
+    },
+    enableSorting: false,
+    enableHiding: false,
   }
 ];
 
@@ -85,6 +89,7 @@ export const account: ColumnDef<Account>[] = [
   {
     accessorKey: 'id',
     header: 'id',
+    enableHiding: false,
   },
   {
     accessorKey: 'type',
@@ -92,9 +97,7 @@ export const account: ColumnDef<Account>[] = [
   },
   {
     accessorKey: 'provider',
-    header: ({ column }) => {
-      return sortableColumn({ column });
-    },
+    header: sortableColumn,
   },
   {
     accessorKey: 'providerAccountId',
@@ -110,9 +113,7 @@ export const account: ColumnDef<Account>[] = [
   },
   {
     accessorKey: 'expires_at',
-    header: ({ column }) => {
-      return sortableColumn({ column });
-    },
+    header: sortableColumn,
     cell: ({ row }) => {
       return (new Date(row.getValue('expires_at'))).toLocaleDateString('en-GB');    
     }
@@ -136,13 +137,14 @@ export const account: ColumnDef<Account>[] = [
   {
     accessorKey: 'userId',
     header: 'userId',
+    enableHiding: false,
   },
 ];
 
 function checkboxColumn<TData>() {
   return (
     {
-      id: 'select', 
+      id: "select",
       header: ({ table } : { table: Table<TData> }) => (
         <Checkbox
           checked={
@@ -151,6 +153,7 @@ function checkboxColumn<TData>() {
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
+          className="translate-y-[2px]"
         />
       ),
       cell: ({ row } : { row: Row<TData> }) => (
@@ -158,6 +161,7 @@ function checkboxColumn<TData>() {
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
+          className="translate-y-[2px]"
         />
       ),
       enableSorting: false,
@@ -188,7 +192,7 @@ export function actionsColumn<TData>({ row }: { row: Row<TData> }) {
           variant="ghost"
           className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
         >
-          <DotsHorizontalIcon className="h-4 w-4" />
+          <DotsVerticalIcon className="h-4 w-4" />
           <span className="sr-only">Open menu</span>
         </Button>
       </DropdownMenuTrigger>

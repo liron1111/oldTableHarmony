@@ -8,8 +8,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../ui/command";
-import { Button } from "../ui/button";
+} from "./ui/command";
+import { Button } from "./ui/button";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useCurrentRole } from "@/hooks/use-current-role";
 import Link from "next/link";
@@ -40,13 +40,13 @@ export const Search = () => {
         <CommandInput placeholder="Type a search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Public pages">
+          <CommandGroup heading="Main pages">
             <Item title='home' to='/' />
             <Item title='information' to='/information' />
           </CommandGroup>
           {role && (
             <CommandGroup heading="Social pages">
-              <Item title='servers' to='/servers' />
+              <Item title='social' to='/social' />
             </CommandGroup>
           )}
           {role === UserRole.ADMIN && (

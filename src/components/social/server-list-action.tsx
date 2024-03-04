@@ -17,6 +17,7 @@ export const ServerListAction = () => {
       >
         <Button size="icon" onClick={() => onOpen("createServer")}>
           <PlusIcon className="h-4 w-4" />
+          <span className="sr-only">action</span>
         </Button>
       </ActionTooltip>
     </div>

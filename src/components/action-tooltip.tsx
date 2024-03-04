@@ -20,7 +20,6 @@ export const ActionTooltip = ({
   children,
   side,
   align,
-  variant,
 }: ActionTooltipProps) => {
   return (
     <TooltipProvider>

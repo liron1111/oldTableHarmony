@@ -23,6 +23,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { update } from "@/actions/update";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export const UpdateForm = () => {
   const user = useCurrentUser();
@@ -58,8 +59,8 @@ export const UpdateForm = () => {
   return (
     <CardWrapper
       headerLabel="Update account"
-      backButtonLabel="Back to home"
-      backButtonHref="/"
+      backButtonLabel="Back"
+      backButtonHref={DEFAULT_LOGIN_REDIRECT}
     > 
       {!user?.isOAuth ? (
         <Form {...form}>

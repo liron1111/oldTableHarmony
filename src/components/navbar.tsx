@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Profile } from '@/components/profile';
-import { Search } from '@/components/navigation/search';
+import { Search } from '@/components/search';
 import { useCurrentUser } from '@/hooks/use-current-user';
 
 export const Navbar = () => {
