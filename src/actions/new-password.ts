@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { getUserByEmail } from "@/data/user";
 import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
-import { NewPasswordSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/schemas/auth";
 
 export const newPassword = async (
   values: z.infer<typeof NewPasswordSchema>,

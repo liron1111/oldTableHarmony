@@ -5,7 +5,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { CreateServerSchema } from "@/schemas";
+import { CreateServerSchema } from "@/schemas/social";
 import { Input } from "@/components/ui/input";
 import {
   Form,

@@ -1,30 +1,40 @@
 'use client'
 
-import { DotsVerticalIcon } from "@radix-ui/react-icons"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
-import { Button } from '../ui/button';
 import { 
   User, 
   Account,
 } from '@prisma/client';
-import { 
-  ColumnDef, 
-  Column,
-  Row,
-  Table,
-} from '@tanstack/react-table';
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { CaretSortIcon } from "@radix-ui/react-icons"
-import { Checkbox } from '../ui/checkbox';
+import { ColumnDef } from '@tanstack/react-table';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Checkbox } from '@/components/ui/checkbox';
+import { DataTableRowActions } from '@/components/admin/data-table-row-actions';
+import { DataTableColumnHeader } from '@/components/admin/data-table-column-header';
 
 export const user: ColumnDef<User>[] = [
-  checkboxColumn(),
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-[2px]"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-[2px]"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'image',
     header: '',
@@ -45,7 +55,9 @@ export const user: ColumnDef<User>[] = [
   },
   {
     accessorKey: 'email',
-    header: sortableColumn,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Email" />
+    ),
   },
   {
     accessorKey: 'password',
@@ -54,7 +66,9 @@ export const user: ColumnDef<User>[] = [
   },
   {
     accessorKey: 'name',
-    header: sortableColumn,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="name" />
+    ),
   },
   {
     accessorKey: 'emailVerified',
@@ -76,16 +90,37 @@ export const user: ColumnDef<User>[] = [
   {
     accessorKey: 'actions',
     header: '',
-    cell: ({ row }) => {
-      return actionsColumn({ row });
-    },
+    cell: ({ row }) => <DataTableRowActions row={row} />,
     enableSorting: false,
     enableHiding: false,
   }
 ];
 
 export const account: ColumnDef<Account>[] = [
-  checkboxColumn(),
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-[2px]"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-[2px]"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'id',
     header: 'id',
@@ -97,7 +132,9 @@ export const account: ColumnDef<Account>[] = [
   },
   {
     accessorKey: 'provider',
-    header: sortableColumn,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="provider" />
+    ),
   },
   {
     accessorKey: 'providerAccountId',
@@ -113,7 +150,9 @@ export const account: ColumnDef<Account>[] = [
   },
   {
     accessorKey: 'expires_at',
-    header: sortableColumn,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="expires_at" />
+    ),
     cell: ({ row }) => {
       return (new Date(row.getValue('expires_at'))).toLocaleDateString('en-GB');    
     }
@@ -140,69 +179,3 @@ export const account: ColumnDef<Account>[] = [
     enableHiding: false,
   },
 ];
-
-function checkboxColumn<TData>() {
-  return (
-    {
-      id: "select",
-      header: ({ table } : { table: Table<TData> }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-          className="translate-y-[2px]"
-        />
-      ),
-      cell: ({ row } : { row: Row<TData> }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-          className="translate-y-[2px]"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    }
-  )
-}
-
-function sortableColumn<TData>({ column } : { column: Column<TData> }) {
-  return (
-    <Button
-      variant="ghost"
-      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    >
-      {column.id}
-      <CaretSortIcon className="ml-2 h-4 w-4" />
-    </Button>
-  );
-}
-
-export function actionsColumn<TData>({ row }: { row: Row<TData> }) {
-  const originalRow = row;
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
-          <DotsVerticalIcon className="h-4 w-4" />
-          <span className="sr-only">Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Switch Role</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
