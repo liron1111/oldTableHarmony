@@ -8,10 +8,10 @@ export default function MainLayout({
 }) {  
   return (
     <div className='flex flex-col'>
-      <div>
+      <>
         <Navbar />
         <Separator />
-      </div>
+      </>
       {children}
     </div>
   );

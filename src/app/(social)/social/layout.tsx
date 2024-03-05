@@ -1,20 +1,24 @@
 import { Navbar } from "@/components/navbar";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { ServerList } from "@/components/social/server-list";
 import { Separator } from "@/components/ui/separator";
 
-export default function SocialLayout({
+export default async function SocialLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {  
-  return (
+} : {
+  children: React.ReactNode,
+}) {
+  return ( 
     <div className='flex flex-col'>
-      <div>
+      <>
         <Navbar />
         <Separator />
-      </div>
+      </>
       <ModalProvider />
-      {children}
+      <>
+        <ServerList />
+        {children}
+      </>
     </div>
   );
 }

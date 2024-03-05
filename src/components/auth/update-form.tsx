@@ -21,7 +21,7 @@ import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { update } from "@/actions/update";
+import { update } from "@/actions/auth/update";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 

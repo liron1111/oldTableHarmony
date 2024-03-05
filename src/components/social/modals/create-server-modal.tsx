@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
-import { createServer } from "@/actions/create-server";
+import { createServer } from "@/actions/server/create";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useModal } from "@/hooks/use-modal-store";

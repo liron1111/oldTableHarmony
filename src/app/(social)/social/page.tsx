@@ -1,7 +1,5 @@
-import React from 'react'
-
-export default function Page()  {
+export default function SocialPage()  {
   return (
-    <div>Page</div>
+    <div>socials</div>
   )
 }

@@ -1,6 +1,5 @@
-import React from 'react'
-import { ServerHeader } from '@/components/server/server-header';
-import { getServerById } from '@/data/server';
+import { ServerHeader } from '@/components/social/server/server-header';
+import { getServerWithMembersWithProfilesById } from '@/data/server';
 import { currentRole } from '@/lib/auth';
 import { MemberRole } from '@prisma/client';
 import { ServerWithMembersWithProfiles } from '@/types';
@@ -13,11 +12,11 @@ export const ServerSidebar = async ({
   serverId
 }: ServerSidebarProps) => {
   const role = await currentRole() as MemberRole;
-  const server = await getServerById(serverId) as ServerWithMembersWithProfiles;
+  const server = await getServerWithMembersWithProfilesById(serverId) as ServerWithMembersWithProfiles;
 
   return (
-    <div>
+    <>
       <ServerHeader server={server} role={role} />
-    </div>
+    </>
   )
 }

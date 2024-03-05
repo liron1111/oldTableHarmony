@@ -2,8 +2,8 @@
 
 import { ActionTooltip } from "@/components/action-tooltip";
 import { useModal } from "@/hooks/use-modal-store";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 export const ServerListAction = () => {
   const { onOpen } = useModal();
@@ -15,9 +15,14 @@ export const ServerListAction = () => {
         align="center"
         label="Add a server"
       >
-        <Button size="icon" onClick={() => onOpen("createServer")}>
-          <PlusIcon className="h-4 w-4" />
-          <span className="sr-only">action</span>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => onOpen("createServer")}
+          className="group flex items-center"
+        >
+          <PlusIcon />
+          <span className="sr-only">add server</span>
         </Button>
       </ActionTooltip>
     </div>

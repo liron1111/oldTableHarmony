@@ -3,6 +3,7 @@
 import { 
   User, 
   Account,
+  Server
 } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -179,3 +180,11 @@ export const account: ColumnDef<Account>[] = [
     enableHiding: false,
   },
 ];
+
+export const server: ColumnDef<Server>[] = [
+  {
+    accessorKey: 'id',
+    header: 'id',
+    enableHiding: false,
+  },
+]

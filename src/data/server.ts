@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-export const getServerById = async (id: string) => {
+export const getServerWithMembersWithProfilesById = async (id: string) => {
   try {
     const server = await prisma.server.findUnique({
       where: { id },
@@ -27,17 +27,49 @@ export const getServerById = async (id: string) => {
   }
 };
 
-export const getServersByUserId = async (userId: string) => {
+export const getServerByIdAndUserId = async (id: string, userId: string) => {
   try {
-    const servers = await prisma.server.findMany({
+    const server = await prisma.server.findUnique({
       where: {
+        id: id,
         members: {
           some: { userId }
         }
       }
     });
+    
+    return server;
+  } catch {
+    return null;
+  }
+};
 
-    return servers;
+export const getServerByInviteCodeAndUserId = async (inviteCode: string, userId: string) => {
+  try {
+    const server = await prisma.server.findUnique({
+      where: {
+        inviteCode: inviteCode,
+        members: {
+          some: { userId }
+        }
+      }
+    });
+    
+    return server;
+  } catch {
+    return null;
+  }
+};
+
+export const getServerByInviteCode = async (inviteCode: string) => {
+  try {
+    const server = await prisma.server.findUnique({
+      where: {
+        inviteCode: inviteCode,
+      }
+    });
+    
+    return server;
   } catch {
     return null;
   }

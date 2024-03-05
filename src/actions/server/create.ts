@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { v4 as uuidv4 } from "uuid";
 
-import { CreateServerSchema } from "@/schemas/auth";
+import { CreateServerSchema } from "@/schemas/social";
 import { prisma } from "@/lib/prisma";
 import { MemberRole } from "@prisma/client";
 import { currentUser } from "@/lib/auth";

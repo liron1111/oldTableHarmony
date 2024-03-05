@@ -36,3 +36,21 @@ export const getUserById = async (id: string) => {
     return null;
   }
 };
+
+export const getUserServersById = async (id: string) => {
+  try {
+    const servers = await prisma.server.findMany({
+      where: {
+        members: {
+          some: { 
+            userId: id,
+          }
+        }
+      }
+    });
+
+    return servers;
+  } catch {
+    return [];
+  }
+};

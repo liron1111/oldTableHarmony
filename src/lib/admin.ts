@@ -1,1 +1,1 @@
-export const models = ['user', 'account'];
+export const models = ['user', 'account', 'server'];
