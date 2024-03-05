@@ -38,7 +38,7 @@ export const ServerHeader = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" className="w-fit">
           {server.name}
           <ChevronDownIcon className="h-4 w-4 ml-auto" />
         </Button>

@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -25,8 +25,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { createServer } from "@/actions/server/create";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
 import { useModal } from "@/hooks/use-modal-store";
 
 export const CreateServerModal = () => {
@@ -34,8 +32,6 @@ export const CreateServerModal = () => {
   const isModalOpen = isOpen && type === "createServer";
 
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
   
   const form = useForm<z.infer<typeof CreateServerSchema>>({
     resolver: zodResolver(CreateServerSchema),
@@ -46,28 +42,17 @@ export const CreateServerModal = () => {
   });
 
   const onSubmit = (values: z.infer<typeof CreateServerSchema>) => {
-    setError("");
-    setSuccess("");
-
     startTransition(() => {
       createServer(values)
         .then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          }
-
-          if (data?.success) {
-            form.reset();
-            setSuccess(data.success);
-          }
-        }).catch(() => setError("Something went wrong!"));
+          if (data.success)
+            handleClose();
+        }).catch(() => console.log("Something went wrong!"));
     });
   };
 
   const handleClose = () => {
     form.reset();
-    setError("");
-    setSuccess("");
     onClose();
   }
 
@@ -121,8 +106,6 @@ export const CreateServerModal = () => {
                 )}
               />
             </div>
-            <FormError message={error} />
-            <FormSuccess message={success} />
             <Button className="w-full" disabled={isPending}>
               Create
             </Button>

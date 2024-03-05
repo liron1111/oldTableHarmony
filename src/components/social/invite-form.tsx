@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Server } from "@prisma/client";
 import { joinServer } from "@/actions/server/invite";
+import { redirect, useRouter } from "next/navigation";
 
 interface InviteFormProps {
   server: Server,
@@ -20,11 +21,13 @@ export const InviteForm = ({
   server
 }: InviteFormProps) => {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const onClick = () => {
     startTransition(() => {
       joinServer(server.inviteCode)
         .then((data) => {
+          router.refresh();
         }).catch(() => console.log("Something went wrong!"));
     });
   };

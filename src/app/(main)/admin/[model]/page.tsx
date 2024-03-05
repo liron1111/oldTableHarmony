@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma"
-import * as columns from "@/components/admin/columns";
-import { DataTable } from "@/components/admin/data-table";
+import * as columns from "../_components/columns";
+import { DataTable } from "../_components/data-table";
 import { RoleGate } from "@/components/auth/role-gate";
 import { UserRole } from "@prisma/client";
-import { models } from "@/lib/admin";
+import { models } from "../models";
 
 interface AdminPageProps {
   params: {

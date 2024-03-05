@@ -18,7 +18,7 @@ import {
 } from "./ui/dropdown-menu"
 import Link from "next/link"
 import { ExitIcon } from "@radix-ui/react-icons";
-import { LogoutButton } from "./auth/logout-button";
+import { signOut } from "next-auth/react"
 
 export const Profile = () => {
   const user = useCurrentUser();
@@ -45,12 +45,10 @@ export const Profile = () => {
               <Link href='/auth/update'>Update</Link>
             </DropdownMenuItem>
           )}
-          <LogoutButton>
-            <DropdownMenuItem>
-              <ExitIcon className="h-4 w-4 mr-2" />
-              Logout
-            </DropdownMenuItem>
-          </LogoutButton>
+          <DropdownMenuItem onClick={() => signOut()}>
+            <ExitIcon className="h-4 w-4 mr-2" />
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
-import { LoginSchema } from "@/schemas/auth";
+import { LoginSchema } from "@/app/auth/login/schema";
 import { getUserByCredentials } from "@/data/user";
 
 export default {
